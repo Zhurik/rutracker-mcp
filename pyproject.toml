@@ -1,0 +1,80 @@
+[project]
+name = "rutracker-mcp"
+version = "0.1.0"
+description = "MCP server for RuTracker API"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "py-rutracker-client>=0.1.0",
+    "mcp>=1.13.0",
+    "starlette>=0.37.0",
+    "uvicorn>=0.29.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-env>=0.6.2",
+    "aiohttp>=3.8.0",
+]
+dev = [
+    "ruff>=0.1.6",
+    "isort>=5.12.0",
+    "pre-commit>=3.5.0",
+]
+
+[project.scripts]
+rutracker-mcp = "rutracker_mcp_server:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[tool.setuptools]
+packages = ["rutracker_mcp_server"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "integration: marks tests as integration tests",
+]
+addopts = [
+    "--verbose",
+    "--tb=short",
+    "-m", "not integration"
+]
+env = [
+    "RUTRACKER_LOGIN=test_user",
+    "RUTRACKER_PASSWORD=test_password"
+]
+
+[tool.setuptools.package-data]
+"*" = ["*.env"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+extend-ignore = [
+    "E501",  # Line too long (handled by formatter)
+]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88

@@ -1,0 +1,59 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: end-of-file-fixer
+        name: "Fix end of files"
+        description: "Ensure files end with a newline"
+
+      - id: trailing-whitespace
+        name: "Fix trailing whitespace"
+        description: "Remove trailing whitespace"
+        args: [--markdown-linebreak-ext=md]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
+    hooks:
+      - id: ruff
+        name: "Run Ruff linter"
+        description: "Lint Python code with Ruff"
+        args: [--fix, --exit-non-zero-on-fix]
+
+      - id: ruff-format
+        name: "Format Python code"
+        description: "Format Python code with Ruff"
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: "Sort imports"
+        description: "Sort Python imports with isort"
+        args: ["--profile", "black"]
+
+  - repo: local
+    hooks:
+      - id: check-uv-lock
+        name: "Check uv.lock is up to date"
+        description: "Verify uv.lock file is synchronized with pyproject.toml"
+        entry: uv lock --locked
+        language: system
+        pass_filenames: false
+        files: ^(pyproject\.toml|uv\.lock)$
+
+      - id: generate-requirements
+        name: "Generate requirements.txt"
+        description: "Generate requirements.txt from uv.lock"
+        entry: uv pip compile pyproject.toml -o requirements.txt
+        language: system
+        pass_filenames: false
+        files: ^pyproject\.toml$
+
+      - id: run-tests
+        name: "Run tests"
+        description: "Run pytest tests"
+        entry: uv run pytest
+        language: system
+        pass_filenames: false
+        files: ^.*$
+        stages: [pre-commit, pre-merge-commit, manual]
