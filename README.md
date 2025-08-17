@@ -11,7 +11,31 @@ MCP (Message Control Protocol) server for interacting with RuTracker API.
 
 ## Installation
 
+### Using pip/uv (Recommended)
+
 ```bash
+# Install with uv
+uv pip install rutracker-mcp
+
+# Or with pip
+pip install rutracker-mcp
+```
+
+### Using Homebrew (macOS)
+
+```bash
+# Tap the repository (once)
+brew tap YOUR_USERNAME/homebrew-rutracker-mcp
+
+# Install the formula
+brew install rutracker-mcp
+```
+
+### From source
+
+```bash
+git clone https://github.com/YOUR_USERNAME/rutracker-mcp.git
+cd rutracker-mcp
 uv pip install -e .
 ```
 
@@ -116,24 +140,69 @@ The server supports two transport modes:
 1. **stdio** - For direct integration with AI assistants
 2. **HTTP** - For development and testing
 
-## Testing
+## Development
 
-Run tests with pytest:
+### Prerequisites
+
+- Python 3.13+
+- [uv](https://github.com/astral-sh/uv) (recommended)
+
+### Setup
 
 ```bash
-# Install test dependencies
-uv pip install -e ".[test]"
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/rutracker-mcp.git
+cd rutracker-mcp
+
+# Install dependencies
+uv sync --dev
 
 # Run tests
 uv run pytest
 
-# Run tests with coverage
-uv run pytest --cov=src
+# Run pre-commit hooks
+uv run pre-commit run --all-files
 ```
 
-## Development
+### Testing
 
-The server uses the FastMCP framework which provides:
-- Automatic JSON Schema generation for tool parameters and return values
-- Support for both stdio and HTTP transports
-- Built-in tool discovery and calling mechanisms
+Run tests with pytest:
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run tests with coverage
+uv run pytest --cov=rutracker_mcp_server
+```
+
+### Pre-commit Hooks
+
+The project uses pre-commit hooks to ensure code quality:
+
+```bash
+# Install pre-commit hooks
+uv run pre-commit install
+
+# Run all hooks on all files
+uv run pre-commit run --all-files
+```
+
+## CI/CD
+
+The project uses GitHub Actions for continuous integration:
+- Pre-commit hooks validation
+- Unit tests execution
+- Conventional commits enforcement
+
+## Publishing
+
+To publish a new version:
+1. Update version in `pyproject.toml`
+2. Create a git tag
+3. Publish to PyPI
+4. Update Homebrew formula
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
