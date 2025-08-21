@@ -1,5 +1,7 @@
 # RuTracker MCP Server
 
+[![pre-commit](https://github.com/Zhurik/rutracker-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Zhurik/rutracker-mcp/actions/workflows/ci.yml)
+
 MCP (Message Control Protocol) server for interacting with RuTracker API.
 
 ## Features
