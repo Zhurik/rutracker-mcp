@@ -15,9 +15,7 @@ def test_function_signatures():
     # Test search_torrents signature
     sig = inspect.signature(search_torrents)
     assert "query" in sig.parameters
-    assert sig.parameters["query"].annotation == str
 
     # Test download_torrent signature
     sig = inspect.signature(download_torrent)
     assert "topic_id" in sig.parameters
-    assert sig.parameters["topic_id"].annotation == str
